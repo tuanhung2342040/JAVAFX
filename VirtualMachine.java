@@ -74,7 +74,8 @@ public class VirtualMachine {
     } 
  
     public Integer setOpr(int opr) { 
-        return opr; 
+        ram.add(opr);
+        return opr;
     } 
  
     public Integer away() { 
@@ -87,7 +88,7 @@ public class VirtualMachine {
     } 
  
     public void printRam() { 
- 
+         System.out.println("");
  
     } 
  
@@ -118,6 +119,7 @@ public class VirtualMachine {
  
  
     public void psh() { 
+        ram.push(opr);
     } 
  
     public void callMe(String name) { 
@@ -150,7 +152,7 @@ public class VirtualMachine {
         catch(Exception e){
                     System.out.println("");   
             } 
-        return isFin; 
+        return isFin;   
  
  
     } 

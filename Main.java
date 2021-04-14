@@ -12,10 +12,13 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -29,23 +32,17 @@ public class Main extends Application {
     
      private MenuBar makeMenuBar(){
          MenuBar m = new MenuBar();
-         Menu men = new Menu("Hello");
-         MenuItem mi = new MenuItem("World");
-         mi.setOnAction((ActionEvent gwas) ->{
-             System.out.println("Hellow world");
-         });
-         men.getItems().add(mi);
-         m.getMenus().add(men);
-         CheckMenuItem cmi = new CheckMenuItem();
-         men.getItems().add(cmi);
+        
          
          Menu con = new Menu("Controls");
          MenuItem co = new MenuItem("Step");
+         
 
          con.getItems().add(co);
          MenuItem c = new MenuItem("Clear");
          c.setOnAction((ActionEvent ae) ->{
-             mi.setText(null);
+            System.out.println("Ready to tokenize the following string: psh 1"); 
+        
          });
          con.getItems().add(c);
          m.getMenus().add(con);
@@ -55,35 +52,55 @@ public class Main extends Application {
          mo.getItems().add(cm);
          m.getMenus().add(mo);
          
+         
+        
+         
+         
          return m;
      }
         
     @Override
+ 
     public void start(Stage primaryStage) {
-       
+        TextField tf = new TextField();
+        tf.setEditable(false);
+        
+        TextField pcDisp = new TextField();
+        pcDisp.setEditable(false);
        
         FlowPane root = new FlowPane();
+        
+        Label l = new Label("This is a string");
+        VBox vb = new VBox();
+        
+      
 
         Scene scene = new Scene(root, 300, 250);
         Button b = new Button();
         
-        root.getChildren().add(makeMenuBar());
+        
+        
         Button stepBtn = new Button();
         stepBtn.setText("step");
-        b.setOnAction((ActionEvent ac) ->{
+        stepBtn.setOnAction((ActionEvent ac) ->{tf.setText("Hello");
         VirtualMachine v = new VirtualMachine();
         v.step(prRamOp, prInsOp);
     });
-        root.getChildren().add(stepBtn);
+      
+        root.getChildren().add(makeMenuBar());
+        root.getChildren().add(vb);
+        root.getChildren().add(pcDisp);
+        
+        
         
         Button clearBtn = new Button();
         clearBtn.setText("clear");
         
-        b.setOnAction((ActionEvent ad) ->{
+        clearBtn.setOnAction((ActionEvent ad) ->{
         vm = new VirtualMachine();
         vm.assemble("/..program.txt");
     });
-        root.getChildren().add(clearBtn);
+        
         
         primaryStage.setTitle("Hellow World");
         primaryStage.setScene(scene);
@@ -95,10 +112,9 @@ public class Main extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-      
-        
+    public static void main(String[] args) { 
         launch(args);
+        
     }
     
 }

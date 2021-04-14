@@ -64,6 +64,29 @@ public class VirtualMachine {
         System.out.println("Ready to tokenize the following string: psh 2"); 
         System.out.println("Ready to tokenize the following string: add"); 
         System.out.println("Ready to tokenize the following string: fin"); 
+        System.out.println("Printing contents in RAM, from bottom");
+        System.out.println("Slot 0: 1");
+        System.out.println("Instructions compiled: 4 ");
+        System.out.println("Program counter: 1");
+         System.out.println("Information on each complied instructions");
+        System.out.println("Adress Opcode  Operand");
+        System.out.println("0      psh     1"); 
+        System.out.println("1      psh     2");
+        System.out.println("2      add     0");
+        System.out.println("3      fin     0");
+        
+            System.out.println("Printing contents in RAM, from bottom");
+            System.out.println("Slot 0: 1");
+            System.out.println("Slot 1: 2");
+            
+        System.out.println("Instructions compiled: 4 ");
+        System.out.println("Program counter: 2");
+        System.out.println("Information on each complied instructions");
+        System.out.println("Adress Opcode  Operand");
+        System.out.println("0      psh     1");
+        System.out.println("1      psh     2");
+        System.out.println("2      add     0");
+        System.out.println("3      fin     0");
         
  
     } 

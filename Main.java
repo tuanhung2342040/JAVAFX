@@ -77,7 +77,7 @@ public class Main extends Application {
 }
     
     public void update(boolean b){
-        
+       
     }
     
      private MenuBar makeMenuBar(){
@@ -130,7 +130,7 @@ public class Main extends Application {
          });
          Button btn2 = new Button("Clear");
          btn1.setOnAction((ActionEvent e) ->{
-             update(true);
+           
              System.out.println("I am on a toolbar!1");
          });
          btns.add(btn1);
@@ -151,15 +151,17 @@ public class Main extends Application {
         
         /*TextField tf = new TextField();
         tf.setEditable(false);*/
-        
+        VBox vb = new VBox();
         TextField pcDisp = new TextField();
+        Label l = new Label("Program Counter");
+        vb.getChildren().add(l);
+        vb.getChildren().add(pcDisp);
         pcDisp.setEditable(false);
        
         FlowPane root = new FlowPane();
         
-        Label l = new Label("Program Counter");
-        VBox vb = new VBox();
-        vb.getChildren().add(l);
+        
+        
         Scene scene = new Scene(root, 300, 250);
         Button b = new Button();
         

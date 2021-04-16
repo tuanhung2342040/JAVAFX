@@ -5,19 +5,20 @@
  */
 package gooeyvm;
 
-public class Instructions { 
+public class Instruction { 
     private int opr; 
     private String opc; 
     private int addr; 
-    public Instructions(int opr, String opc){ 
-        this.opc = opc; 
-        this.opr = opr; 
-    } 
-    public Instructions(int addr, String opc, int opr){ 
+    public Instruction(int addr, String opc, int opr){ 
         this.opr = opr; 
         this.opc = opc; 
         this.addr = addr; 
     } 
+    public Instruction(int opr, String opc){ 
+        this.opc = opc; 
+        this.opr = opr; 
+    } 
+    
     public void setOpr(int opr){ 
         this.opr = opr; 
     } 

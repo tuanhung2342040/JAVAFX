@@ -12,16 +12,21 @@ package gooeyvm;
 public class student {
     private String name;
     private int studNum;
-    
-    public student (String n, int sn){
+    private int school;
+    public student (int sn, String n,int school){
         this.name = n;
         this.studNum = sn;
+        this.school = school;
     }
     public String getName(){
         return name;
     }
-    public int getStudentNum(){
+    public int getStudNum(){
         return studNum;
     }
+    public int getSchool(){
+        return school;
+    }
+    
    
 }

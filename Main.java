@@ -5,6 +5,7 @@
  */
 package gooeyvm;
 
+import java.io.File;
 import java.util.ArrayList;
 import javafx.scene.control.MenuBar;
 import javafx.application.Application;
@@ -26,6 +27,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 /**
@@ -44,20 +46,20 @@ public class Main extends Application {
      private void makeInsView(){ 
 
          insView = new TableView(); 
-         TableColumn<Instructions, Integer> addressCol = new TableColumn("Address"); 
-         TableColumn<Instructions, String>  opcCol = new TableColumn("Opcode"); 
-         TableColumn<Instructions, Integer> oprCol = new TableColumn("Operand");
-         addressCol.setCellValueFactory(new PropertyValueFactory("Addre"));
-         opcCol.setCellValueFactory(new PropertyValueFactory("Opco"));
-         oprCol.setCellValueFactory(new PropertyValueFactory("Opera"));
+         TableColumn<Instruction, Integer> addressCol = new TableColumn("Address"); 
+         TableColumn<Instruction, String>  opcCol = new TableColumn("Opcode"); 
+         TableColumn<Instruction, Integer> oprCol = new TableColumn("Operand");
+         addressCol.setCellValueFactory(new PropertyValueFactory("addr"));
+         opcCol.setCellValueFactory(new PropertyValueFactory("opc"));
+         oprCol.setCellValueFactory(new PropertyValueFactory("opr"));
          insView.getColumns().addAll(addressCol, opcCol, oprCol); 
          insView.getItems().clear(); 
-         ArrayList<Instructions> ins = new ArrayList<>(); 
-         ins.add(new Instructions(0, "psh", 1)); 
-         ins.add(new Instructions(1, "psh", 2));
-         ins.add(new Instructions(2, "add", 0));
-         ins.add(new Instructions(3, "fin", 0));
-         ObservableList<Instructions> in = FXCollections.observableArrayList(ins);  
+         ArrayList<Instruction> ins = new ArrayList<>(); 
+         ins.add(new Instruction(0, "psh", 1)); 
+         ins.add(new Instruction(1, "psh", 2));
+         ins.add(new Instruction(2, "add", 0));
+         ins.add(new Instruction(3, "fin", 0));
+         ObservableList<Instruction> in = FXCollections.observableArrayList(ins);  
          insView.setItems(in); 
      } 
     
@@ -65,13 +67,19 @@ public class Main extends Application {
         students = new TableView();
         TableColumn<student, String> nameCol = new TableColumn("Name");
         TableColumn<student, Integer> numCol = new TableColumn("Student number");
+        TableColumn<student, Integer> schoolCol = new TableColumn("Operand");
         nameCol.setCellValueFactory(new PropertyValueFactory("name"));
         numCol.setCellValueFactory(new PropertyValueFactory("studNum"));
-        students.getColumns().addAll(nameCol, numCol);
+        schoolCol.setCellValueFactory(new PropertyValueFactory("opr"));
+        
+        students.getColumns().addAll(nameCol, numCol, schoolCol);
         students.getItems().clear();
          ArrayList<student> s = new ArrayList<>();
-         s.add(new student("John Doe", 1111));
-         s.add(new student("Jame Doe", 2222));
+         s.add(new student(0, "John", 1));
+         s.add(new student(0, "Jesse", 1));
+         
+         
+         
          ObservableList<student> ss = FXCollections.observableArrayList(s);
          students.setItems(ss);
 }
@@ -80,17 +88,37 @@ public class Main extends Application {
        
     }
     
-     private MenuBar makeMenuBar(){
+     private MenuBar makeMenuBar(Stage s){
          MenuBar m = new MenuBar();
+       
          Menu men = new Menu("Hello"); 
          MenuItem mi = new MenuItem("World"); 
          mi.setOnAction((ActionEvent gwas) ->{ 
-             System.out.println("Hello world"); 
+          System.out.println("Ready to tokenize the following string: psh 1"); 
+        System.out.println("Ready to tokenize the following string: psh 2"); 
+        System.out.println("Ready to tokenize the following string: add"); 
+        System.out.println("Ready to tokenize the following string: fin"); 
+        System.out.println("Printing contents in RAM, from bottom");
+        System.out.println("Slot 0: 1");
+        System.out.println("Printing contents in RAM, from bottom");
+            System.out.println("Slot 0: 1");
+            System.out.println("Slot 1: 2");
 
          }); 
-
          men.getItems().add(mi); 
          m.getMenus().add(men); 
+         
+         Menu file = new Menu("File");
+         MenuItem open = new MenuItem("Open...");
+         open.setOnAction((ActionEvent e)->{
+         File f = new FileChooser().showOpenDialog(s);
+            System.out.println(f.getAbsolutePath());
+         });
+         
+         file.getItems().add(open);
+         m.getMenus().add(file);
+         
+         
          CheckMenuItem cmi = new CheckMenuItem(); 
          men.getItems().add(cmi); 
           
@@ -113,12 +141,6 @@ public class Main extends Application {
          CheckMenuItem cm = new CheckMenuItem();
          mo.getItems().add(cm);
          m.getMenus().add(mo);
-         
-        
-         
-         
-        
-         
          
          return m;
      }
@@ -156,31 +178,20 @@ public class Main extends Application {
         Label l = new Label("Program Counter");
         vb.getChildren().add(l);
         vb.getChildren().add(pcDisp);
-        pcDisp.setEditable(false);
+        pcDisp.setText("1");
+        pcDisp.setEditable(true);
        
         FlowPane root = new FlowPane();
-        
-        
-        
         Scene scene = new Scene(root, 300, 250);
         Button b = new Button();
-        
-        
-        
         Button stepBtn = new Button();
         stepBtn.setText("step");
         stepBtn.setOnAction((ActionEvent ac) ->{tf.setText("Hello");
         VirtualMachine v = new VirtualMachine();
         v.step(prRamOp, prInsOp);
-    });
-        
-        
-        
-        
-       
-        
+    });  
         VBox menuAndTool = new VBox();
-        menuAndTool.getChildren().add(makeMenuBar());
+        menuAndTool.getChildren().add(makeMenuBar(primaryStage));
         menuAndTool.getChildren().add(makeToolBar(makeButtons()));
         
         root.getChildren().add(menuAndTool);
@@ -190,28 +201,22 @@ public class Main extends Application {
         root.getChildren().add(l);
         root.getChildren().add(pcDisp);
         
+        
         Button clearBtn = new Button();
         clearBtn.setText("clear");
-        
         clearBtn.setOnAction((ActionEvent ad) ->{
         vm = new VirtualMachine();
         vm.assemble("/..program.txt");
+        update(true);
     });
         
         
         primaryStage.setTitle("Hellow World");
         primaryStage.setScene(scene);
         primaryStage.show();
-        
-       
     }
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) { 
-        launch(args);
-        
+        launch(args); 
     }
     
 }

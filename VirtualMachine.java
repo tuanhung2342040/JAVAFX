@@ -19,7 +19,7 @@ public class VirtualMachine {
     private Stack<Integer> ram; 
     private int pc; 
     private Class about; 
-    private ArrayList<Instructions> ins; 
+    private ArrayList<Instruction> ins; 
  
     public VirtualMachine() { 
         ram = new Stack<>(); 
@@ -48,9 +48,9 @@ public class VirtualMachine {
             if (lines.size() > 0) { 
                 Tokenizer tokenizer = new Tokenizer("psh 1"); 
                 tokenizer.allTokens(' '); 
-                Instructions i = new Instructions(0, "psh", 1); 
+                Instruction i = new Instruction(0, "psh", 1); 
                 ins.add(i); 
-                Instructions i1 = new Instructions(1, "psh"); 
+                Instruction i1 = new Instruction(1, "psh"); 
                 ins.add(i1); 
                 pc++; 
             } 
@@ -158,7 +158,7 @@ public class VirtualMachine {
     public boolean step(boolean doPrintRam, boolean doPrintIns) { 
         boolean isFin = false; 
         try { 
-            Instructions in = ins.get(pc); 
+            Instruction in = ins.get(pc); 
             String opc = in.getOpc(); 
             opr = in.getOpr(); 
             if (opc.equals("fin")) { 
